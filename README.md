@@ -1,26 +1,14 @@
 # segtree
 
-Clojure implementation of [segment trees](https://en.wikipedia.org/wiki/Segment_tree).
+Clojure implementation of [segment trees](https://en.wikipedia.org/wiki/Segment_tree) with (optionally) lazy propagation.
 
-## Usage
-
-FIXME: explanation
-
-    $ java -jar segtree-0.1.0-standalone.jar [args]
+All operations run in `O(k log N)`, where `k` is the complexity of the user-implemented operations. Building the segment tree takes `O(k N log N)`.
 
 ## Examples
 
-Defining a simple sum segment tree.
+For examples on how to implement your own segment trees, check [the tests file](test/segtree/core_test.clj).
 
-```clojure
-(require '[segtree.core :refer :all])
-(defmethod join-vals :sum [a b _] (+ a b))
-(defmethod identity-val :sum [_] 0)
-
-(-> (build [1 2 3] :sum)
-    (query 0 2))
-
-```
+Available operations are defined [here](src/segtree/core.clj).
 
 ## License
 
