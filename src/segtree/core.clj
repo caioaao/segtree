@@ -1,12 +1,14 @@
 (ns segtree.core)
 
+;; These functions must be defined for each tree type
 (defmulti join-vals (fn [_ _ type] type))
 (defmulti identity-val (fn [tree] (:type tree)))
+
+;; This one is only necessary to use `range-update`. All other operations can be
+;; used without implementing it.
 (defmulti join-range-val (fn [tree _] (:type tree)))
 
 (defmethod join-range-val :default [_ _] nil)
-
-
 
 (defn- join-trees [left right]
   (when (and left right)
@@ -22,8 +24,6 @@
    :value     value
    :idx-left  idx
    :idx-right idx})
-
-(defn tap [x] (println x) x)
 
 (defn- imput-lazy-val [tree]
   (assoc tree :lazy-val (or (:lazy-val tree) (identity-val tree))))
@@ -43,6 +43,9 @@
                           (update :lazy-val join-vals lazy-val type))})
         tree'))
     tree))
+
+
+;; API
 
 (defn build
   ([arr tree-type]
