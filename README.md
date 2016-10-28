@@ -4,6 +4,10 @@ Clojure implementation of [segment trees](https://en.wikipedia.org/wiki/Segment_
 
 All operations run in `O(k log N)`, where `k` is the complexity of the user-implemented operations. Building the segment tree takes `O(k N log N)`.
 
+## Install
+
+Leiningen dependency: `[segtree "0.1.0-SNAPSHOT"]`
+
 ## Examples
 
 For examples on how to implement your own segment trees, check [the tests file](test/segtree/core_test.clj).
