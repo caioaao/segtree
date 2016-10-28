@@ -4,10 +4,10 @@
 (defmulti identity-val (fn [tree] (:type tree)))
 
 (defn join-trees [left right]
-  {:type        (:type left)
-   :value       (join-vals (:value left) (:value right) (:type left))
-   :left        left
-   :right       right
+  {:type      (:type left)
+   :value     (join-vals (:value left) (:value right) (:type left))
+   :left      left
+   :right     right
    :idx-left  (:idx-left left)
    :idx-right (:idx-right right)})
 
@@ -27,6 +27,7 @@
                  (build arr (inc (quot (+ i j) 2)) j tree-type)))))
 
 (defn query
+  "Returns result of joining all values between `a` and `b`."
   [tree a b]
   (cond
     (or (< (:idx-right tree) a)
@@ -41,3 +42,19 @@
     (join-vals (query (:left tree) a b)
                (query (:right tree) a b)
                (:type tree))))
+
+(defn point-update
+  "Joins `v` with value in `idx`."
+  [tree idx v]
+  (cond
+    (or (< (:idx-right tree) idx)
+        (> (:idx-left tree) idx))
+    tree
+
+    (and (= (:idx-left tree) idx)
+         (= (:idx-right tree) idx))
+    (update tree :value join-vals v (:type tree))
+
+    :true
+    (join-trees (point-update (:left tree) idx v)
+                (point-update (:right tree) idx v))))
